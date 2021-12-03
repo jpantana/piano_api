@@ -6,7 +6,8 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 // import {Item} from './items/item.interface';
-import {major} from './notes/notes.service';
+import {major, naturalMinor} from './notes/notes.service';
+import {playNote} from './sounds/sounds.service';
 
 const sql = require('mssql');
 
@@ -110,6 +111,13 @@ app.get('/items/:id', (req: any, res: any): Promise<APIResponse | void> => {
 app.get('/major/:root', (req: any, res: any): any => {
   const {root} = req.params;
   const result = major( Number(root));
+  res.send(result);
+  // playNote(659, 4);
+});
+
+app.get('/minor/:root', (req: any, res: any): any => {
+  const {root} = req.params;
+  const result = naturalMinor( Number(root));
   res.send(result);
 });
 
