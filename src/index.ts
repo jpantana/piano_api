@@ -6,8 +6,10 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 // import {Item} from './items/item.interface';
-import {major, naturalMinor} from './notes/notes.service';
-import {playNote} from './sounds/sounds.service';
+import {major, naturalMinor} from './scales/scales.service';
+
+// require controller modules...
+const scalesController = require('./controllers/scales.controller');
 
 const sql = require('mssql');
 
@@ -44,6 +46,7 @@ if (!process.env.PORT) {
 const PORT: number = parseInt(process.env.PORT as string, 10);
 
 const app = express();
+const router = express.Router();
 
 /**
  *  App Configuration
@@ -51,6 +54,7 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use('/', router);
 
 /**
  * App routes
@@ -79,7 +83,7 @@ const makeConnection = async (queryString: string, res: any): Promise<APIRespons
 }
 */
 
-app.get('/', (req: any, res: any): void => {
+router.get('/', (req: any, res: any): void => {
   res.send('root')
 });
 
@@ -108,18 +112,10 @@ app.get('/items/:id', (req: any, res: any): Promise<APIResponse | void> => {
 });
 */
 
-app.get('/major/:root', (req: any, res: any): any => {
-  const {root} = req.params;
-  const result = major( Number(root));
-  res.send(result);
-  // playNote(659, 4);
-});
+router.get('/major/:root', scalesController.getMajorScale );
 
-app.get('/minor/:root', (req: any, res: any): any => {
-  const {root} = req.params;
-  const result = naturalMinor( Number(root));
-  res.send(result);
-});
+
+router.get('/minor/:root', scalesController.getMinorScale );
 
 /**
  * Server Activation

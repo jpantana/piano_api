@@ -1,8 +1,7 @@
-// src/notes/note.interface.ts
+// src/scales/scale.interface.ts
 export interface BaseNote {
   sharpName: string;
   flatName: string;
-  htz: number;
   octave: number;
 }
 

@@ -1,4 +1,4 @@
-// src/notes/notes.interface.ts
+// src/scales/scales.interface.ts
 
 import { Note } from "./note.interface";
 
